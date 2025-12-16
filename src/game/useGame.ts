@@ -3,7 +3,7 @@ import { shuffle } from "./shuffle";
 
 export function useGame() {
   const [board, setBoard] = useState<(number | null)[]>(Array(25).fill(null));
-  const [queue, setQueue] = useState<number[]>([]);
+  const [, setQueue] = useState<number[]>([]);
   const [current, setCurrent] = useState(1);
   const [started, setStarted] = useState(false);
   const [cleared, setCleared] = useState(false);
