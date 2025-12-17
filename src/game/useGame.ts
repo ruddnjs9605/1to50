@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { shuffle } from "./shuffle";
 
+export type ClickResult = "correct" | "wrong" | "ignored";
+
 export function useGame() {
   const [board, setBoard] = useState<(number | null)[]>(Array(25).fill(null));
   const [, setQueue] = useState<number[]>([]);
@@ -24,12 +26,13 @@ export function useGame() {
     setCleared(false);
   };
 
-  const onClick = (n: number | null, idx: number) => {
-    if (!started || n !== current) return;
+  const onClick = (n: number | null, idx: number): ClickResult => {
+    if (!started) return "ignored";
+    if (n !== current) return "wrong";
 
     if (n === 50) {
       setCleared(true);
-      return;
+      return "correct";
     }
 
     setQueue((prevQueue) => {
@@ -46,6 +49,7 @@ export function useGame() {
     });
 
     setCurrent((c) => c + 1);
+    return "correct";
   };
 
   return {

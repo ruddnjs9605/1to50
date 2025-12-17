@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useGame } from "./game/useGame";
+import { ClickResult, useGame } from "./game/useGame";
 import { useTimer } from "./game/useTimer";
 import Header from "./components/Header";
 import GameBoard from "./components/GameBoard";
@@ -14,6 +14,43 @@ export default function Game() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const { bestTime, addRecord } = useRanking();
   const [isNewRecord, setIsNewRecord] = useState(false);
+  const [feedback, setFeedback] = useState<("correct" | "wrong" | null)[]>(
+    () => Array(25).fill(null)
+  );
+
+  const resetFeedback = () => setFeedback(Array(25).fill(null));
+
+  const handleStart = () => {
+    resetFeedback();
+    setIsNewRecord(false);
+    game.startGame();
+  };
+
+  const handleRestart = () => {
+    resetFeedback();
+    setIsNewRecord(false);
+    game.restart();
+  };
+
+  const handleClick = (n: number | null, idx: number) => {
+    const result: ClickResult = game.onClick(n, idx);
+    if (result === "ignored") return;
+
+    setFeedback((prev) => {
+      const next = [...prev];
+      next[idx] = result;
+      return next;
+    });
+
+    window.setTimeout(() => {
+      setFeedback((prev) => {
+        if (prev[idx] === null) return prev;
+        const next = [...prev];
+        next[idx] = null;
+        return next;
+      });
+    }, 180);
+  };
 
   useEffect(() => {
     document.body.classList.toggle("dark", theme === "dark");
@@ -51,7 +88,7 @@ export default function Game() {
       </div>
 
       <div className="board-wrapper">
-        <GameBoard board={game.board} onClick={game.onClick} />
+        <GameBoard board={game.board} onClick={handleClick} feedback={feedback} />
 
         {!game.started && (
           <div
@@ -65,7 +102,7 @@ export default function Game() {
             }}
           >
             <Button
-              onClick={game.startGame}
+              onClick={handleStart}
               variant="ghost"
               style={{ pointerEvents: "auto" }}
             >
@@ -80,7 +117,7 @@ export default function Game() {
             time={elapsed}
             bestTime={bestTime}
             isNewRecord={isNewRecord}
-            onRestart={game.restart}
+            onRestart={handleRestart}
           />
         )}
       </div>

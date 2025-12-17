@@ -3,9 +3,10 @@ import Card from "./Card";
 type Props = {
   board: (number | null)[];
   onClick: (n: number | null, i: number) => void;
+  feedback?: ("correct" | "wrong" | null)[];
 };
 
-export default function GameBoard({ board, onClick }: Props) {
+export default function GameBoard({ board, onClick, feedback }: Props) {
   return (
     <div
       style={{
@@ -15,7 +16,12 @@ export default function GameBoard({ board, onClick }: Props) {
       }}
     >
       {board.map((n, i) => (
-        <Card key={i} value={n} onClick={() => onClick(n, i)} />
+        <Card
+          key={i}
+          value={n}
+          status={feedback?.[i] ?? null}
+          onClick={() => onClick(n, i)}
+        />
       ))}
     </div>
   );

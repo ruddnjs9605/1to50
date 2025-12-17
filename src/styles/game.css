@@ -133,7 +133,8 @@ body.dark .theme-toggle:hover {
   justify-content: center;
 
   transform-style: preserve-3d;
-  transition: transform 0.35s ease;
+  transition: transform 0.35s ease, box-shadow 0.15s ease;
+  box-shadow: 0 0 0 0 transparent;
 }
 
 
@@ -150,6 +151,14 @@ body.dark .theme-toggle:hover {
 
 .card-back {
   transform: rotateY(180deg);
+}
+
+.card.correct .card-inner {
+  box-shadow: 0 0 0 3px #22c55e;
+}
+
+.card.wrong .card-inner {
+  box-shadow: 0 0 0 3px #ef4444;
 }
 
 /* 결과 오버레이 */
