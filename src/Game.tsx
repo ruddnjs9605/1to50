@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { ClickResult, useGame } from "./game/useGame";
+import type { ClickResult } from "./game/useGame";
+import { useGame } from "./game/useGame";
 import { useTimer } from "./game/useTimer";
 import Header from "./components/Header";
 import GameBoard from "./components/GameBoard";
