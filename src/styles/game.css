@@ -154,11 +154,11 @@ body.dark .theme-toggle:hover {
 }
 
 .card.correct .card-inner {
-  box-shadow: 0 0 0 3px #22c55e;
+  box-shadow: 0 0 0 5px #22c55e;
 }
 
 .card.wrong .card-inner {
-  box-shadow: 0 0 0 3px #ef4444;
+  box-shadow: 0 0 0 5px #ef4444;
 }
 
 /* 결과 오버레이 */
