@@ -72,6 +72,19 @@ export default function Game() {
     if (!game.started) setIsNewRecord(false);
   }, [game.started]);
 
+  useEffect(() => {
+    if (!game.cleared) return;
+    if (typeof window === "undefined") return;
+
+    try {
+      if (window.Android?.onGameFinished) {
+        window.Android.onGameFinished();
+      }
+    } catch {
+      // silently ignore bridge errors
+    }
+  }, [game.cleared]);
+
   return (
     <div className="game-container">
       <Header elapsed={elapsed} theme={theme} onToggleTheme={toggleTheme} />
